@@ -17,7 +17,8 @@ int main() {
 	}
 	if (result)
 		std::cout << "It is palindrom" << std::endl;
-	else std::cout << "It is not palindrom" << std::endl;
+	else 
+		std::cout << "It is not palindrom" << std::endl;
 	system("pause");
 	return 0;
 }
