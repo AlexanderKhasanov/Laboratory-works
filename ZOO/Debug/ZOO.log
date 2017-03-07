@@ -1,0 +1,5 @@
+﻿  main.cpp
+d:\проекты\лабы\zoo\main.cpp(43): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+d:\проекты\лабы\zoo\main.cpp(120): warning C4552: %: оператор не имеет результата; требуется оператор с побочным действием
+  ZOO.vcxproj -> D:\проекты\Лабы\ZOO\Debug\ZOO.exe
+  ZOO.vcxproj -> D:\проекты\Лабы\ZOO\Debug\ZOO.pdb (Full PDB)
