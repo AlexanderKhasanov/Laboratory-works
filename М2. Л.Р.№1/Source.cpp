@@ -20,38 +20,44 @@ int SizeNumber(const char* data) {
 bool boolFromString(const char * data) {
 	if (data == "")
 		throw EmptyLine();
-	if (strcmp(data, "TRUE") == 0 || strcmp(data, "TRUe") == 0 || strcmp(data, "TRue") == 0 || strcmp(data, "True") == 0 || strcmp(data, "true") == 0 || strcmp(data, "1") == 0)
+	std::string str(data);
+	int i = 0;
+	while (str[i]) {
+		str[i] = char(tolower(data[i]));
+		++i;
+	}
+	if (!str.compare("true") || !str.compare("1"))
 		return true;
-	else if (strcmp(data, "FALSE") == 0 || strcmp(data, "False") == 0 || strcmp(data, "FAlse") == 0 || strcmp(data, "FALse") == 0 || strcmp(data, "FALSe") == 0 || strcmp(data, "false") == 0 || strcmp(data, "0") == 0)
-			return false;
-		else
-			throw IncorrectSymbol();
+	else if (!str.compare("false") || !str.compare("0"))
+		return false;
+	else
+		throw IncorrectSymbol();
 }
 
 /*int intFromString(const char* data) {
-	if (data == nullptr)
-		throw EmptyLine();
-	int number = 0;
-	int check = 0;
-	int size = SizeNumber(data);
-	bool minus = false;
-	int i = 0;
-	if (data[0] == '-') {
-		minus = true;
-		i = 1;
-	}
-	for (i; i < size; ++i) {
-		if (data[i] == '.' || data[i] == ',')
-			break;
-		number = number * 10 + GetNumberSymbol(data[i]);
-		if (number < check)//при переполнении int присваивается минимально возможное значение
-			throw ArithmeticOverflow();
-		check = number;
-	}
-	if (minus)
-		return -number;
-	else
-		return number;
+if (data == nullptr)
+throw EmptyLine();
+int number = 0;
+int check = 0;
+int size = SizeNumber(data);
+bool minus = false;
+int i = 0;
+if (data[0] == '-') {
+minus = true;
+i = 1;
+}
+for (i; i < size; ++i) {
+if (data[i] == '.' || data[i] == ',')
+break;
+number = number * 10 + GetNumberSymbol(data[i]);
+if (number < check)//при переполнении int присваивается минимально возможное значение
+throw ArithmeticOverflow();
+check = number;
+}
+if (minus)
+return -number;
+else
+return number;
 }*/
 
 int intFromString(const char* data) {
@@ -59,22 +65,37 @@ int intFromString(const char* data) {
 		throw EmptyLine();
 	int number = 0;
 	int size = SizeNumber(data);
+	int sizeMax = 10;
 	bool minus = false;
 	int i = 0;
+	int check = 0;
 	if (data[0] == '-') {
 		minus = true;
 		i = 1;
 	}
-	for (i; i < size; ++i) {
-		if (minus) {
-			number = number * 10 - GetNumberSymbol(data[i]);
-			if (number > 0)//при превышении минимального int присваивается максимально возможное значение
+	while(data[i]=='0'){
+		++i;
+	}
+	if (size - i > 10)
+		throw ArithmeticOverflow();
+	else {
+		if (size - i == 10) {
+			if (GetNumberSymbol(data[i]) > 2)
 				throw ArithmeticOverflow();
 		}
-		else {
-			number = number * 10 + GetNumberSymbol(data[i]);
-			if (number < 0)//при превышении максимального значения int присваивается минимально возможное значение
-				throw ArithmeticOverflow();
+		for (i; i < size; ++i) {
+			if (minus) {
+				number = number * 10 - GetNumberSymbol(data[i]);
+				check = number;
+				if (number > check)//при превышении минимального int присваивается максимально возможное значение
+					throw ArithmeticOverflow();
+			}
+			else {
+				number = number * 10 + GetNumberSymbol(data[i]);
+				check = number;
+				if (number < check)//при превышении максимального значения int присваивается минимально возможное значение
+					throw ArithmeticOverflow();
+			}
 		}
 	}
 	return number;
@@ -102,7 +123,7 @@ float floatFromString(const char * data) {
 			number = number * 10 + GetNumberSymbol(data[i]);
 			if (number > std::numeric_limits<float>::max() || number < std::numeric_limits<float>::min())
 				throw ArithmeticOverflow();
-		}	
+		}
 	}
 	if (dot)
 		number *= pow(0.1, size - positionOfDot - 1);
@@ -116,8 +137,10 @@ int main() {
 	std::cout << intFromString("-002147483648") << std::endl;
 	std::cout << intFromString("002147483647") << std::endl;
 	try {
+		intFromString("6147483647");
+		intFromString("2147483647");
 		intFromString("-0021f48364");
-		std::cout <<  intFromString("-000123") << std::endl;
+		std::cout << intFromString("-000123") << std::endl;
 		std::cout << intFromString("-002147483649") << std::endl;
 	}
 	catch (EmptyLine & e) {
@@ -130,8 +153,8 @@ int main() {
 		std::cout << "Entered a long number" << std::endl;
 	}
 	std::cout << std::endl;
-	
-	boolFromString("False");
+
+	boolFromString("FalSe");
 	try {
 		std::cout << boolFromString("true") << std::endl;
 		boolFromString("FalSse");
@@ -159,5 +182,5 @@ int main() {
 	catch (ArithmeticOverflow & e) {
 		std::cout << "Entered a long number" << std::endl;
 	}
-	return 0; 
+	return 0;
 }
