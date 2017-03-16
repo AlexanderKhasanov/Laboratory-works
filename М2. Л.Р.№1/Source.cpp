@@ -22,13 +22,37 @@ bool boolFromString(const char * data) {
 		throw EmptyLine();
 	if (strcmp(data, "TRUE") == 0 || strcmp(data, "TRUe") == 0 || strcmp(data, "TRue") == 0 || strcmp(data, "True") == 0 || strcmp(data, "true") == 0 || strcmp(data, "1") == 0)
 		return true;
-	else {
-		if (strcmp(data, "FALSE") == 0 || strcmp(data, "FAlse") == 0 || strcmp(data, "FALse") == 0 || strcmp(data, "FALSe") == 0 || strcmp(data, "false") == 0 || strcmp(data, "0") == 0)
+	else if (strcmp(data, "FALSE") == 0 || strcmp(data, "FAlse") == 0 || strcmp(data, "FALse") == 0 || strcmp(data, "FALSe") == 0 || strcmp(data, "false") == 0 || strcmp(data, "0") == 0)
 			return false;
 		else
 			throw IncorrectSymbol();
-	}
 }
+
+/*int intFromString(const char* data) {
+	if (data == nullptr)
+		throw EmptyLine();
+	int number = 0;
+	int check = 0;
+	int size = SizeNumber(data);
+	bool minus = false;
+	int i = 0;
+	if (data[0] == '-') {
+		minus = true;
+		i = 1;
+	}
+	for (i; i < size; ++i) {
+		if (data[i] == '.' || data[i] == ',')
+			break;
+		number = number * 10 + GetNumberSymbol(data[i]);
+		if (number < check)//при переполнении int присваивается минимально возможное значение
+			throw ArithmeticOverflow();
+		check = number;
+	}
+	if (minus)
+		return -number;
+	else
+		return number;
+}*/
 
 int intFromString(const char* data) {
 	if (data == nullptr)
@@ -44,14 +68,18 @@ int intFromString(const char* data) {
 	for (i; i < size; ++i) {
 		if (data[i] == '.' || data[i] == ',')
 			break;
-		number = number * 10 + GetNumberSymbol(data[i]);
-		if (number < 0)//при переполнении int присваивается минимально возможное значение
-			throw ArithmeticOverflow();
+		if (minus) {
+			number = number * 10 - GetNumberSymbol(data[i]);
+			if (number > 0)//при превышении минимального int присваивается максимально возможное значение
+				throw ArithmeticOverflow();
+		}
+		else {
+			number = number * 10 + GetNumberSymbol(data[i]);
+			if (number < 0)//при превышении максимального значения int присваивается минимально возможное значение
+				throw ArithmeticOverflow();
+		}
 	}
-	if (minus)
-		return -number;
-	else
-		return number;
+	return number;
 }
 
 float floatFromString(const char * data) {
@@ -87,10 +115,11 @@ float floatFromString(const char * data) {
 }
 
 int main() {
+	std::cout << intFromString("-002147483648") << std::endl;
+	std::cout << intFromString("002147483647") << std::endl;
 	try {
-		
 		std::cout <<  intFromString("-000123") << std::endl;
-		std::cout << intFromString("10000000000000") << std::endl;
+		std::cout << intFromString("-002147483649") << std::endl;
 	}
 	catch (EmptyLine & e) {
 		std::cout << "Entered empty line" << std::endl;
