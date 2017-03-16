@@ -18,11 +18,11 @@ int SizeNumber(const char* data) {
 }
 
 bool boolFromString(const char * data) {
-	if (data == nullptr)
+	if (data == "")
 		throw EmptyLine();
 	if (strcmp(data, "TRUE") == 0 || strcmp(data, "TRUe") == 0 || strcmp(data, "TRue") == 0 || strcmp(data, "True") == 0 || strcmp(data, "true") == 0 || strcmp(data, "1") == 0)
 		return true;
-	else if (strcmp(data, "FALSE") == 0 || strcmp(data, "FAlse") == 0 || strcmp(data, "FALse") == 0 || strcmp(data, "FALSe") == 0 || strcmp(data, "false") == 0 || strcmp(data, "0") == 0)
+	else if (strcmp(data, "FALSE") == 0 || strcmp(data, "False") == 0 || strcmp(data, "FAlse") == 0 || strcmp(data, "FALse") == 0 || strcmp(data, "FALSe") == 0 || strcmp(data, "false") == 0 || strcmp(data, "0") == 0)
 			return false;
 		else
 			throw IncorrectSymbol();
@@ -55,7 +55,7 @@ bool boolFromString(const char * data) {
 }*/
 
 int intFromString(const char* data) {
-	if (data == nullptr)
+	if (data == "")
 		throw EmptyLine();
 	int number = 0;
 	int size = SizeNumber(data);
@@ -66,8 +66,6 @@ int intFromString(const char* data) {
 		i = 1;
 	}
 	for (i; i < size; ++i) {
-		if (data[i] == '.' || data[i] == ',')
-			break;
 		if (minus) {
 			number = number * 10 - GetNumberSymbol(data[i]);
 			if (number > 0)//при превышении минимального int присваивается максимально возможное значение
@@ -83,7 +81,7 @@ int intFromString(const char* data) {
 }
 
 float floatFromString(const char * data) {
-	if (data == nullptr)
+	if (data == "")
 		throw EmptyLine();
 	float number = 0;
 	int size = SizeNumber(data);
@@ -102,7 +100,7 @@ float floatFromString(const char * data) {
 		}
 		else {
 			number = number * 10 + GetNumberSymbol(data[i]);
-			if (number > std::numeric_limits<float>::max())
+			if (number > std::numeric_limits<float>::max() || number < std::numeric_limits<float>::min())
 				throw ArithmeticOverflow();
 		}	
 	}
@@ -118,6 +116,7 @@ int main() {
 	std::cout << intFromString("-002147483648") << std::endl;
 	std::cout << intFromString("002147483647") << std::endl;
 	try {
+		intFromString("-0021f48364");
 		std::cout <<  intFromString("-000123") << std::endl;
 		std::cout << intFromString("-002147483649") << std::endl;
 	}
@@ -132,9 +131,10 @@ int main() {
 	}
 	std::cout << std::endl;
 	
+	boolFromString("False");
 	try {
 		std::cout << boolFromString("true") << std::endl;
-		boolFromString("tru");
+		boolFromString("FalSse");
 	}
 	catch (EmptyLine & e) {
 		std::cout << "Entered empty line" << std::endl;
@@ -145,7 +145,9 @@ int main() {
 	std::cout << std::endl;
 
 	try {
-		std::cout << floatFromString("-000123.1456") << std::endl;
+		std::cout << floatFromString("11111111111111111111111111111111111.2343") << std::endl;
+		std::cout << floatFromString("00003333") << std::endl;
+		std::cout << floatFromString("-000001.2343") << std::endl;
 		std::cout << floatFromString("12e.456") << std::endl;
 	}
 	catch (EmptyLine & e) {
