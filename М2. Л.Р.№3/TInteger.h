@@ -2,11 +2,6 @@
 #include<iostream>
 #include<exception>
 #include<limits>
-//#define IntMax 	2147483647
-//#define IntMin 	-2147483648
-
-//const int Max = std::numeric_limits<int>::max();
-//const int Min = std::numeric_limits<int>::min();
 
 struct TOverflowValue
 	: public std::exception
