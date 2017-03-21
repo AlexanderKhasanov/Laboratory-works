@@ -94,13 +94,13 @@ public:
 	void push_back(const value_type& value)
 	{
 		if (InternalCapacity == 0)
-			reserve(1);
+			reserve(16);
 		if (Count < InternalCapacity) {
 			Ptr[Count] = value;
 			++Count;
 		}
 		else {
-			this->reserve(2*InternalCapacity);
+			this->reserve(2 * InternalCapacity);
 			Ptr[Count] = value;
 			++Count;
 		}
@@ -176,21 +176,19 @@ public:
 	{
 		if (count == Count)
 			return;
+		value_type* ptr = new value_type[count];
+		if (count < Count)
+			memcpy(ptr, Ptr, count * sizeof(value_type));
 		else {
-			value_type* ptr = new value_type[count];
-			if (count < Count)
-				memcpy(ptr, Ptr, count * sizeof(value_type));
-			else {
-				if (count > InternalCapacity)
-					reserve(2 * InternalCapacity);
-				memcpy(ptr, Ptr, count * sizeof(value_type));
-				for (size_type i = Count; i < count; ++i) {
-					ptr[i] = value;
-				}
+			if (count > InternalCapacity)
+				reserve(2 * InternalCapacity);
+			memcpy(ptr, Ptr, count * sizeof(value_type));
+			for (size_type i = Count; i < count; ++i) {
+				ptr[i] = value;
 			}
-			delete[] Ptr;
-			Ptr = ptr;
-			Count = count;
+		delete[] Ptr;
+		Ptr = ptr;
+		Count = count;
 		}
 	}
 
@@ -251,7 +249,8 @@ public:
 		return first;
 	}
 
-	bool CheckForEmpty() const{
+private:
+	bool CheckForEmpty() const {
 		if (!this->empty())
 			return true;
 		else
