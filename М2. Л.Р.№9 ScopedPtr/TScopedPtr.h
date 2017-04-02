@@ -6,8 +6,8 @@
 template<class T>
 class TScopedPtr
 {
-public:
 	T* Ptr;
+public:
 	TScopedPtr(TScopedPtr const &) = delete;
 	TScopedPtr & operator=(TScopedPtr const &) = delete;
 
