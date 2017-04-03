@@ -103,7 +103,7 @@ template<
 		std::swap(Arr, b.Arr);
 	}
 
-	bool operator == (const TArray<T, N> & b) const {
+	bool operator== (const TArray<T, N> & b) const {
 		size_type sizeArr1 = size();
 		size_type sizeArr2 = b.size();
 		if (sizeArr1 != sizeArr2)
@@ -114,19 +114,22 @@ template<
 		}
 		return true;
 	}
-
-/*	bool operator != (const TArray<T, N> & b) const {
+		
+	bool operator<(const TArray & b) const {
 		size_type sizeArr1 = size();
 		size_type sizeArr2 = b.size();
-		if (sizeArr1 != sizeArr2)
-			return true;
-		for (size_type i = 0; i < sizeArr1; ++i) {
-			if (Arr[i] != b.Arr[i])
-				return true;
+		size_type i = 0;
+		while (i < sizeArr1 && i < sizeArr2) {
+			if (Arr[i] < b.Arr[i]) return true;
+			if (Arr[i] > b.Arr[i]) return false;
+			++i;
 		}
-		return false;
+		if (sizeArr1 < sizeArr2)
+			return true;
+		else
+			return false;
 	}
-	*/
+
 private:
 	bool CheckForEmpty() const {
 		if (!this->empty())
@@ -149,9 +152,33 @@ void swap(TArray<T, N> & a, TArray<T, N> & b) {
 }
 
 template<class T, std::size_t N>
-bool operator != (const TArray<T, N> & a, const TArray<T, N> & b) {
+bool operator!= (const TArray<T, N> & a, const TArray<T, N> & b) {
 	if (a == b)
 		return false;
 	else
 		return true;
+}
+
+template<class T, std::size_t N>
+bool operator> (const TArray<T, N> & a, const TArray<T, N> & b) {
+	if (a == b || a < b)
+		return false;
+	else
+		return true;
+}
+
+template<class T, std::size_t N>
+bool operator>= (const TArray<T, N> & a, const TArray<T, N> & b) {
+	if (a == b || a > b)
+		return true;
+	else
+		return false;
+}
+
+template<class T, std::size_t N>
+bool operator<= (const TArray<T, N> & a, const TArray<T, N> & b) {
+	if (a == b || a < b)
+		return true;
+	else
+		return false;
 }
