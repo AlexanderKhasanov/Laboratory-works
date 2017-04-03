@@ -29,7 +29,14 @@ int main() {
 	Print(arr1.begin(), arr1.end());
 	std::cout << "arr3: ";
 	Print(arr3.begin(), arr3.end());
-
+	if(arr1==arr3)
+		std::cout << "arr1:"<<std::endl;
+	else
+		std::cout << "arr2:"<<std::endl;
+	if (arr1 != arr3)
+		std::cout << "arr1:" << std::endl;
+	else
+		std::cout << "arr2:" << std::endl;
 	try {
 		int s=arr1.at(4);
 	}
