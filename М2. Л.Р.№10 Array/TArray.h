@@ -66,11 +66,11 @@ template<
 			return Arr[N - 1];
 	}
 
-	iterator data() throw() {
+	T* data() throw() {
 		return Arr;
 	}
 
-	const_iterator data() const throw(){
+	const T* data() const throw(){
 		return Arr;
 	}
 
