@@ -1,0 +1,7 @@
+﻿  Source.cpp
+d:\проекты\лабы\м2. л.р.№10 array\tarray.h(52): warning C4715: TArray<double,4>::front: значение возвращается не при всех путях выполнения
+d:\проекты\лабы\м2. л.р.№10 array\tarray.h(62): warning C4715: TArray<double,4>::back: значение возвращается не при всех путях выполнения
+d:\проекты\лабы\м2. л.р.№10 array\tarray.h(34): warning C4715: TArray<double,4>::at: значение возвращается не при всех путях выполнения
+d:\проекты\лабы\м2. л.р.№10 array\tarray.h(34): warning C4715: TArray<int,4>::at: значение возвращается не при всех путях выполнения
+  М2. Л.Р.№10 Array.vcxproj -> D:\проекты\Лабы\М2. Л.Р.№10 Array\Debug\М2. Л.Р.№10 Array.exe
+  М2. Л.Р.№10 Array.vcxproj -> D:\проекты\Лабы\М2. Л.Р.№10 Array\Debug\М2. Л.Р.№10 Array.pdb (Full PDB)
