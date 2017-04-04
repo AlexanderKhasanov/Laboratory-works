@@ -23,7 +23,7 @@ int SizeNumber(const char* data) {
 
 template<>
 bool FromString<bool>(const char * data) {
-	if (data == "")
+	if (strcmp(data, "")==0)
 		throw EmptyLine();
 	std::string str(data);
 	int i = 0;
@@ -41,7 +41,7 @@ bool FromString<bool>(const char * data) {
 
 template<>
 int FromString<int>(const char* data) {
-	if (data == "")
+	if (strcmp(data, "") == 0)
 		throw EmptyLine();
 	int number = 0;
 	int size = SizeNumber(data);
@@ -81,7 +81,7 @@ int FromString<int>(const char* data) {
 
 template<>
 float FromString<float>(const char * data) {
-	if (data == "")
+	if (strcmp(data, "") == 0)
 		throw EmptyLine();
 	float number = 0;
 	int size = SizeNumber(data);
