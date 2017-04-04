@@ -18,7 +18,7 @@ int SizeNumber(const char* data) {
 }
 
 bool boolFromString(const char * data) {
-	if (data == "")
+	if (strcmp(data, "") == 0)
 		throw EmptyLine();
 	std::string str(data);
 	int i = 0;
@@ -35,7 +35,7 @@ bool boolFromString(const char * data) {
 }
 
 int intFromString(const char* data) {
-	if (data == "")
+	if (strcmp(data, "") == 0)
 		throw EmptyLine();
 	int number = 0;
 	int size = SizeNumber(data);
@@ -75,57 +75,8 @@ int intFromString(const char* data) {
 	return number;
 }
 
-/*int intFromString(const char *data) {
-	int x(0), size = 0;
-	int k(0);
-	bool flag = true;
-	for (int i = 0; data[i] != '\0'; i++) {
-		if (isalpha(data[i])) {
-			throw IncorrectSymbol();
-		}
-		if (data[i] == '.' || data[i] == ',') break;
-		k++;
-
-		if (data[0] == '-') continue;
-		if (flag && (data[i] == '0')) {
-
-		}
-		else {
-			flag = false;
-		}
-		if (!flag) {
-			size++;
-		}
-
-
-	}
-
-	if (size > 11) {
-		throw ArithmeticOverflow();
-	}
-	else {
-		if (data[0] != '-') {
-			for (int i = 0; i < k; i++) {
-				x = (int)((int(data[k - i - 1]) - 48) * pow(10, i)) + x;
-			}
-		}
-		else {
-			for (int i = 0; i < k - 1; i++) {
-				x = -((int)((int(data[k - i - 1]) - 48) * pow(10, i))) + x;
-			}
-		}
-		if ((x >= 0 && data[0] != '-') || (x <= 0 && data[0] == '-'))
-			return x;
-		else {
-			throw ArithmeticOverflow();
-		}
-
-	}
-
-}*/
-
 float floatFromString(const char * data) {
-	if (data == "")
+	if (strcmp(data, "") == 0)
 		throw EmptyLine();
 	float number = 0;
 	int size = SizeNumber(data);
@@ -144,7 +95,7 @@ float floatFromString(const char * data) {
 		}
 		else {
 			number = number * 10 + GetNumberSymbol(data[i]);
-			if (number > std::numeric_limits<float>::max() || number < std::numeric_limits<float>::min())
+			if (number > std::numeric_limits<float>::max() || number < -std::numeric_limits<float>::max())
 				throw ArithmeticOverflow();
 		}
 	}
