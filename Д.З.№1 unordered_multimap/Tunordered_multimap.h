@@ -59,7 +59,7 @@ template<
 
 		bool operator != (const TIterator& r)
 		{
-			if (Ptr->first == r.Ptr->first && Ptr->second == r.Ptr->second)
+			if (Ptr->first == r.Ptr->first)
 				return false;
 			else
 				return true;
@@ -137,7 +137,7 @@ public:
 		{
 			++index;
 		}
-		return TIterator(&HashArr[i][0], HashArr, index);
+		return TIterator(&HashArr[index][0], HashArr, index);
 	}
 
 	iterator end() throw()
@@ -291,4 +291,55 @@ public:
 	{
 		return HashArr[n].size();
 	}
+
+	mapped_type& operator[](const key_type& key)
+	{
+		size_type index = Hasher(key) % NumberBucket;
+		bucket_arr& bucket = HashArr[index];
+		for (size_type i = 0; i < bucket.size(); ++i)
+		{
+			if (Equal(key, bucket[i].first))
+				return bucket[i].second;
+		}
+		mapped_type data;
+		bucket.push_back({key, data});
+		return bucket[bucket.size() - 1].second;
+	}
+
+	TUnordered_Map& operator=(const TUnordered_Map& other)
+	{
+		Hasher = other.Hasher;
+		Equal = other.Equal;
+		HashArr = other.HashArr;
+		NumberBucket = other.NumberBucket;
+		return *this;
+	}
 };
+
+template<
+	class Key,
+	class T,
+	class Hash = std::hash<Key>,
+	class KeyEqual = std::equal_to<Key>
+>
+bool operator==(TUnordered_Map<Key, T>& a, TUnordered_Map<Key, T>& b) throw() {
+	if (a.size() != b.size())
+		return false;
+	for (auto i = a.begin(); i != a.end(); ++i) {
+		if (a.count(i->first) != b.count(i->first))
+			return false;
+		if (i->second != b.at(i->second))
+			return false;
+	}
+	return true;
+}
+
+template<
+	class Key,
+	class T,
+	class Hash = std::hash<Key>,
+	class KeyEqual = std::equal_to<Key>
+>
+bool operator!=(TUnordered_Map<Key, T>& a, TUnordered_Map<Key, T>& b) throw() {
+	return !(a == b);
+}
