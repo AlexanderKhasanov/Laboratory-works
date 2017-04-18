@@ -1,4 +1,3 @@
-#pragma once
 #include<iostream>
 #include<vector>
 
@@ -11,7 +10,7 @@ template<
 
 	using key_type = Key;
 	using mapped_type = T;
-	using value_type = std::pair<const Key, T>;
+	using value_type = std::pair<Key, T>; //"у тебя const Key был, я заменил на Key" (c)Горбунов
 	using size_type = size_t;
 	using hasher = Hash;
 	using key_equal = KeyEqual;
@@ -130,7 +129,7 @@ public:
 		iterator it(&HashArr[index][0], HashArr, index);
 		return it;
 	}
-
+	
 	const_iterator begin() const throw()
 	{
 		size_type index = 0;
@@ -142,7 +141,7 @@ public:
 		}
 		return TIterator(&bucketArr[0], HashArr, index);
 	}
-
+	
 	iterator end() throw()
 	{
 		size_type n = NumberBucket - 1;
@@ -151,7 +150,7 @@ public:
 		++it;
 		return it;
 	}
-
+	
 	const_iterator end() const throw()
 	{
 		size_type n = NumberBucket - 1;
@@ -160,7 +159,7 @@ public:
 		++it;
 		return it;
 	}
-
+	
 	bool empty() const throw()
 	{
 		for (auto i = HashArr.begin(); i != HashArr.end(); ++i)
@@ -196,12 +195,13 @@ public:
 	size_type erase(const key_type& key)
 	{
 		size_type index = Hasher(key) % NumberBucket;
-		bucket_arr bucket = HashArr[index];
-		for (auto i=bucket.begin(); i!=bucket.end(); ++i)
+		bucket_arr& bucket = HashArr[index];
+		for (auto i = bucket.begin(); i != bucket.end(); ++i)
 		{
 			if (Equal(key, i->first))
 			{
-				bucket.erase(i);
+
+ 				bucket.erase(i);
 				return 1;
 			}
 		}
@@ -228,7 +228,7 @@ public:
 	mapped_type& at(const key_type& key)
 	{
 		size_type index = Hasher(key) % NumberBucket;
-		for (size_type i = 0; i < HashArr[index].size(); ++i)
+		for (size_type i = 0; i < HashArr[index].size(); i++)
 		{
 			if (Equal(key, HashArr[index][i].first))
 				return HashArr[index][i].second;

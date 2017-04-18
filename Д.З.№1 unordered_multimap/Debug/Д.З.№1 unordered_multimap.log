@@ -1,15 +1,3 @@
 ﻿  Source.cpp
-d:\program\vc\include\utility(230): error C2166: левостороннее значение указывает на объект-константу (const)
-  d:\program\vc\include\utility(229): note: при компиляции функции-члена "<Нет данных>" класса <Нет данных>
-  d:\program\vc\include\xutility(2581): note: см. ссылку на создание экземпляров функции шаблон при компиляции "std::pair<const Key,T> &std::pair<const Key,T>::operator =(std::pair<const Key,T> &&) noexcept(false)"
-          with
-          [
-              Key=int,
-              T=int
-          ]
-  d:\проекты\лабы\д.з.№1 unordered_multimap\source.cpp(10): note: см. ссылку на создание экземпляров класса шаблон при компиляции "std::pair<const Key,T>"
-          with
-          [
-              Key=int,
-              T=int
-          ]
+  Д.З.№1 unordered_multimap.vcxproj -> D:\проекты\Лабы\Д.З.№1 unordered_multimap\Debug\Д.З.№1 unordered_multimap.exe
+  Д.З.№1 unordered_multimap.vcxproj -> D:\проекты\Лабы\Д.З.№1 unordered_multimap\Debug\Д.З.№1 unordered_multimap.pdb (Full PDB)
