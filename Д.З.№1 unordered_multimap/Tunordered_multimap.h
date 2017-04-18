@@ -1,4 +1,4 @@
-#include<iostream>
+п»ї#include<iostream>
 #include<vector>
 
 template<
@@ -10,7 +10,7 @@ template<
 
 	using key_type = Key;
 	using mapped_type = T;
-	using value_type = std::pair<Key, T>; //"у тебя const Key был, я заменил на Key" (c)Горбунов
+	using value_type = std::pair<Key, T>;
 	using size_type = size_t;
 	using hasher = Hash;
 	using key_equal = KeyEqual;
@@ -59,7 +59,7 @@ template<
 
 		bool operator != (const TIterator& r)
 		{
-			if (Ptr->first == r.Ptr->first&&Ptr->second == r.Ptr->second)
+			if (Ptr->first == r.Ptr->first && Ptr->second == r.Ptr->second)
 				return false;
 			else
 				return true;
@@ -73,12 +73,12 @@ template<
 		TIterator& operator ++ ()
 		{
 			if ((*Ptr) == Arr[IndexBucket].back())
-			{	
-				size_type currentIndex = IndexBucket+1;
+			{
+				size_type currentIndex = IndexBucket + 1;
 				while (currentIndex < Arr.size() && Arr[currentIndex].empty())
 				{
 					++currentIndex;
-				} 
+				}
 				if (currentIndex < Arr.size())
 				{
 					IndexBucket = currentIndex;
@@ -108,7 +108,7 @@ private:
 	size_type NumberBucket;
 	hash_arr HashArr;
 
-public:	
+public:
 	TUnordered_Map(size_type numberBuckets = 8, const hasher& hash = hasher(), const key_equal& keyEquality = key_equal())
 		: NumberBucket(numberBuckets)
 		, Hasher(hash)
@@ -129,19 +129,17 @@ public:
 		iterator it(&HashArr[index][0], HashArr, index);
 		return it;
 	}
-	
+
 	const_iterator begin() const throw()
 	{
 		size_type index = 0;
-		bucket_arr bucketArr = HashArr[index];
 		while (bucketArr.empty())
 		{
 			++index;
-			bucketArr = HashArr[index];
 		}
-		return TIterator(&bucketArr[0], HashArr, index);
+		return TIterator(&HashArr[i][0], HashArr, index);
 	}
-	
+
 	iterator end() throw()
 	{
 		size_type n = NumberBucket - 1;
@@ -150,7 +148,7 @@ public:
 		++it;
 		return it;
 	}
-	
+
 	const_iterator end() const throw()
 	{
 		size_type n = NumberBucket - 1;
@@ -159,7 +157,7 @@ public:
 		++it;
 		return it;
 	}
-	
+
 	bool empty() const throw()
 	{
 		for (auto i = HashArr.begin(); i != HashArr.end(); ++i)
@@ -181,11 +179,11 @@ public:
 	std::pair<iterator, bool> insert(const value_type& value)
 	{
 		size_type index = Hasher(value.first) % NumberBucket;
-		bucket_arr bucket = HashArr[index];	
+		bucket_arr& bucket = HashArr[index];
 		for (size_type i = 0; i <bucket.size(); ++i)
 		{
-			if (Equal(value.first,bucket[i].first))
-				return std::pair<iterator, bool>(TIterator(&HashArr[index][i], HashArr, index), false);
+			if (Equal(value.first, bucket[i].first))
+				return std::pair<iterator, bool>(TIterator(&bucket[i], HashArr, index), false);
 		}
 		HashArr[index].push_back(value);
 		value_type val = value;
@@ -201,7 +199,7 @@ public:
 			if (Equal(key, i->first))
 			{
 
- 				bucket.erase(i);
+				bucket.erase(i);
 				return 1;
 			}
 		}
@@ -248,27 +246,27 @@ public:
 	}
 
 
-	iterator find(const key_type& key) 
+	iterator find(const key_type& key)
+	{
+		size_type index = Hasher(key) % NumberBucket;
+		bucket_arr& bucket = HashArr[index];
+		for (size_type i = 0; i<bucket.size(); ++i)
+			if (Equal(key, bucket[i].first))
+				return TIterator(&bucket[i], HashArr, index);
+		throw std::out_of_range("Enter incorrect index!");
+	}
+
+
+	size_type count(const key_type& key) const
 	{
 		size_type index = Hasher(key) % NumberBucket;
 		bucket_arr bucket = HashArr[index];
 		for (size_type i = 0; i<bucket.size(); ++i)
 			if (Equal(key, bucket[i].first))
-				return TIterator(&HashArr[index][i], HashArr, index);
-		throw std::out_of_range("Enter incorrect index!");
-	}
-
-	
-	size_type count(const key_type& key) const
-	{
-		size_type index = Hasher(key) % NumberBucket;
-		bucket_arr bucket = HashArr[index];
-		for (size_type i=0; i<bucket.size(); ++i)
-			if (Equal(key, bucket[i].first))
 				return 1;
 		return 0;
 	}
-	
+
 	size_type bucket_count() const
 	{
 		size_type number = 0;
@@ -278,17 +276,17 @@ public:
 		}
 		return number;
 	}
-	
+
 	size_type max_bucket_count() const
 	{
 		return NumberBucket;
 	}
-	
+
 	size_type bucket(const key_equal& key) const
 	{
 		return Hasher(key) % NumberBucket;
 	}
-	
+
 	size_type bucket_size(size_type n) const
 	{
 		return HashArr[n].size();
