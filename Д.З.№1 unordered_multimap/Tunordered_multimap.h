@@ -8,6 +8,7 @@ template<
 	class KeyEqual = std::equal_to<Key>
 > class TUnordered_Map {
 
+public:
 	using key_type = Key;
 	using mapped_type = T;
 	using value_type = std::pair<Key, T>;
