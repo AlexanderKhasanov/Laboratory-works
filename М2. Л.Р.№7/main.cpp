@@ -1,6 +1,9 @@
 #include "TVector.h"
 #include <iostream>
 
+#pragma warning(disable:4996)
+#define _SCL_SECURE_NO_WARNINGS
+
 void printVector(const TVector<int>& vec)
 {
 	for (int i = 0; i < vec.size(); ++i)
