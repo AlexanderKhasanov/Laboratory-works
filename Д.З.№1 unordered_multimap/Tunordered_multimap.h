@@ -6,7 +6,7 @@ template<
 	class T,
 	class Hash = std::hash<Key>,
 	class KeyEqual = std::equal_to<Key>
-> class TUnordered_Map {
+> class unordered_map {
 
 public:
 	using key_type = Key;
@@ -41,7 +41,7 @@ public:
 			, ManyBucket(false)
 		{}
 
-		friend class TUnordered_Map<Key, T, std::hash<Key>, std::equal_to<Key>>;
+		friend class unordered_map<Key, T, std::hash<Key>, std::equal_to<Key>>;
 
 	public:
 		TIterator() = default;
@@ -110,7 +110,7 @@ private:
 	hash_arr HashArr;
 
 public:
-	TUnordered_Map(size_type numberBuckets = 8, const hasher& hash = hasher(), const key_equal& keyEquality = key_equal())
+	unordered_map(size_type numberBuckets = 8, const hasher& hash = hasher(), const key_equal& keyEquality = key_equal())
 		: NumberBucket(numberBuckets)
 		, Hasher(hash)
 		, Equal(keyEquality)
@@ -123,6 +123,8 @@ public:
 	iterator begin() throw()
 	{
 		size_type index = 0;
+		if (HashArr.empty())
+			return this->end();
 		while (HashArr[index].empty())
 		{
 			++index;
@@ -134,16 +136,26 @@ public:
 	const_iterator begin() const throw()
 	{
 		size_type index = 0;
-		while (bucketArr.empty())
+		if (HashArr.empty())
+			return this->end();
+		while (HashArr[index].empty())
 		{
 			++index;
 		}
-		return TIterator(&HashArr[index][0], HashArr, index);
+		iterator it(&HashArr[index][0], HashArr, index);
+		return it;
 	}
 
 	iterator end() throw()
 	{
-		size_type n = NumberBucket - 1;
+		size_type n = 0;
+		if (HashArr.empty())
+			return this->begin();
+		for (size_type i = 0; i < NumberBucket; ++i)
+		{
+			if (!HashArr[i].empty())
+				n = i;
+		}
 		value_type* ptr = &HashArr[n].back();
 		iterator it(ptr, HashArr, n);
 		++it;
@@ -152,7 +164,14 @@ public:
 
 	const_iterator end() const throw()
 	{
-		size_type n = NumberBucket - 1;
+		size_type n = 0;
+		if (HashArr.empty())
+			return this->begin();
+		for (size_type i = 0; i < NumberBucket; ++i)
+		{
+			if (!HashArr[i].empty())
+				n = i;
+		}
 		value_type* ptr = &HashArr[n].back();
 		iterator it(ptr, HashArr, n);
 		++it;
@@ -191,6 +210,13 @@ public:
 		return std::pair<iterator, bool>(TIterator(&val, HashArr, index), true);
 	}
 
+	void insert(iterator first, iterator last) {
+		for (auto i = first; i != last; ++i) 
+		{
+			this->insert(*i);
+		}
+	}
+
 	size_type erase(const key_type& key)
 	{
 		size_type index = Hasher(key) % NumberBucket;
@@ -207,6 +233,15 @@ public:
 		return 0;
 	}
 
+	iterator erase(iterator first, iterator last) 
+	{
+		for (auto i = first; i != last; ++i)
+		{
+			this->erase((*i).first);
+		}
+		return last;
+	}
+
 	void clear()
 	{
 		for (size_tupe i = 0; i < NumberBucket; ++i)
@@ -216,7 +251,7 @@ public:
 		}
 	}
 
-	void swap(TUnordered_Map& other) throw()
+	void swap(unordered_map& other) throw()
 	{
 		std::swap(Hasher, other.Hasher);
 		std::swap(Equal, other.Equal);
@@ -226,35 +261,38 @@ public:
 
 	mapped_type& at(const key_type& key)
 	{
+		if (!CorrectIndex(key))
+			throw std::out_of_range("Enter incorrect index!");
 		size_type index = Hasher(key) % NumberBucket;
 		for (size_type i = 0; i < HashArr[index].size(); i++)
 		{
 			if (Equal(key, HashArr[index][i].first))
 				return HashArr[index][i].second;
 		}
-		throw std::out_of_range("Enter incorrect index!");
 	}
 
 	const mapped_type& at(const key_type& key) const
 	{
+		if (!CorrectIndex(key))
+			throw std::out_of_range("Enter incorrect index!");
 		size_type index = Hasher(key) % NumberBucket;
 		for (size_type i = 0; i < HashArr[index].size(); ++i)
 		{
 			if (Equal(key, HashArr[index][i].first))
 				return HashArr[index][i].second;
 		}
-		throw std::out_of_range("Enter incorrect index!");
 	}
 
 
 	iterator find(const key_type& key)
 	{
+		if (!CorrectIndex(key))
+			throw std::out_of_range("Enter incorrect index!");
 		size_type index = Hasher(key) % NumberBucket;
 		bucket_arr& bucket = HashArr[index];
 		for (size_type i = 0; i<bucket.size(); ++i)
 			if (Equal(key, bucket[i].first))
-				return TIterator(&bucket[i], HashArr, index);
-		throw std::out_of_range("Enter incorrect index!");
+				return TIterator(&bucket[i], HashArr, index);		
 	}
 
 
@@ -307,7 +345,7 @@ public:
 		return bucket[bucket.size() - 1].second;
 	}
 
-	TUnordered_Map& operator=(const TUnordered_Map& other)
+	unordered_map& operator=(const unordered_map& other)
 	{
 		Hasher = other.Hasher;
 		Equal = other.Equal;
@@ -315,6 +353,19 @@ public:
 		NumberBucket = other.NumberBucket;
 		return *this;
 	}
+
+private:
+	bool CorrectIndex(const key_type& key) 
+	{
+		for (auto i = this->begin(); i != this->end(); ++i)
+		{
+			if (key == (*i).first)
+				return true;
+		}
+		return false;
+	}
+
+
 };
 
 template<
@@ -323,7 +374,7 @@ template<
 	class Hash = std::hash<Key>,
 	class KeyEqual = std::equal_to<Key>
 >
-bool operator==(TUnordered_Map<Key, T>& a, TUnordered_Map<Key, T>& b) throw() {
+bool operator==(unordered_map<Key, T>& a, unordered_map<Key, T>& b) throw() {
 	if (a.size() != b.size())
 		return false;
 	for (auto i = a.begin(); i != a.end(); ++i) {
@@ -341,6 +392,6 @@ template<
 	class Hash = std::hash<Key>,
 	class KeyEqual = std::equal_to<Key>
 >
-bool operator!=(TUnordered_Map<Key, T>& a, TUnordered_Map<Key, T>& b) throw() {
+bool operator!=(unordered_map<Key, T>& a, unordered_map<Key, T>& b) throw() {
 	return !(a == b);
 }
