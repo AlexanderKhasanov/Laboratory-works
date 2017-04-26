@@ -1,0 +1,6 @@
+﻿  Source.cpp
+d:\проекты\student\source.cpp(137): warning C4018: >: несоответствие типов со знаком и без знака
+d:\проекты\student\source.cpp(216): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+d:\проекты\student\source.cpp(217): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+  Student.vcxproj -> D:\проекты\Student\Debug\Student.exe
+  Student.vcxproj -> D:\проекты\Student\Debug\Student.pdb (Full PDB)
