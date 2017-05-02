@@ -1,0 +1,4 @@
+﻿  qsort.cpp
+d:\проекты\лабы\qsort\qsort.cpp(42): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  qsort.vcxproj -> D:\проекты\Лабы\qsort\Debug\qsort.exe
+  qsort.vcxproj -> D:\проекты\Лабы\qsort\Debug\qsort.pdb (Full PDB)
