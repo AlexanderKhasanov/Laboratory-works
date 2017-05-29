@@ -1,81 +1,15 @@
 ﻿  test.cpp
-d:\проекты\лабы\boolean functions\boolean_function.h(34): warning C4244: аргумент: преобразование "double" в "std::size_t", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(36): warning C4552: +: оператор не имеет результата; требуется оператор с побочным действием
-d:\проекты\лабы\boolean functions\boolean_function.h(61): warning C4244: аргумент: преобразование "double" в "unsigned __int64", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(84): warning C4244: аргумент: преобразование "double" в "unsigned int", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(93): warning C4244: инициализация: преобразование "double" в "unsigned __int64", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(97): warning C4800: std::size_t: принудительно задано логическое значение "true" или "false" (предупреждение о производительности)
-d:\проекты\лабы\boolean functions\boolean_function.h(98): warning C4552: >>: оператор не имеет результата; требуется оператор с побочным действием
-d:\проекты\лабы\boolean functions\boolean_function.h(196): warning C4018: <: несоответствие типов со знаком и без знака
-d:\проекты\лабы\boolean functions\boolean_function.h(269): warning C4244: return: преобразование "double" в "boolean_function::std::size_type", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(281): warning C4244: +=: преобразование "double" в "std::size_t", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(292): warning C4244: +=: преобразование "double" в "std::size_t", возможна потеря данных
-d:\проекты\лабы\boolean functions\boolean_function.h(309): warning C4552: +: оператор не имеет результата; требуется оператор с побочным действием
-d:\проекты\лабы\boolean functions\boolean_function.h(337): warning C4018: <: несоответствие типов со знаком и без знака
-d:\program\vc\include\xutility(2316): warning C4800: const char: принудительно задано логическое значение "true" или "false" (предупреждение о производительности)
-  d:\program\vc\include\xutility(2335): note: см. ссылку на создание экземпляров функции шаблон при компиляции "_OutIt std::_Copy_unchecked1<_InIt,_OutIt>(_InIt,_InIt,_OutIt,std::_General_ptr_iterator_tag)"
-          with
-          [
-              _OutIt=std::_Vb_iterator<std::_Wrap_alloc<std::allocator<std::_Vbase>>>,
-              _InIt=const char *
-          ]
-  d:\program\vc\include\xutility(2354): note: см. ссылку на создание экземпляров функции шаблон при компиляции "_OutIt std::_Copy_unchecked<_InIt,_Iter>(_InIt,_InIt,_OutIt)"
-          with
-          [
-              _OutIt=std::_Vb_iterator<std::_Wrap_alloc<std::allocator<std::_Vbase>>>,
-              _InIt=const char *,
-              _Iter=std::_Vb_iterator<std::_Wrap_alloc<std::allocator<std::_Vbase>>>
-          ]
-  d:\program\vc\include\xutility(2364): note: см. ссылку на создание экземпляров функции шаблон при компиляции "_OutIt std::_Copy_no_deprecate1<const char*,_OutIt>(_InIt,_InIt,_OutIt,std::random_access_iterator_tag,std::random_access_iterator_tag)"
-          with
-          [
-              _OutIt=std::_Vb_iterator<std::_Wrap_alloc<std::allocator<std::_Vbase>>>,
-              _InIt=const char *
-          ]
-  d:\program\vc\include\xutility(2373): note: см. ссылку на создание экземпляров функции шаблон при компиляции "_OutIt std::_Copy_no_deprecate<_InIt,_OutIt>(_InIt,_InIt,_OutIt)"
-          with
-          [
-              _OutIt=std::_Vb_iterator<std::_Wrap_alloc<std::allocator<std::_Vbase>>>,
-              _InIt=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
-          ]
-  d:\program\vc\include\vector(2819): note: см. ссылку на создание экземпляров функции шаблон при компиляции "_OutIt std::copy<_Iter,std::_Vb_iterator<std::_Wrap_alloc<std::allocator<_Other>>>>(_InIt,_InIt,_OutIt)"
-          with
-          [
-              _OutIt=std::_Vb_iterator<std::_Wrap_alloc<std::allocator<std::_Vbase>>>,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
-              _Other=std::_Vbase,
-              _InIt=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
-          ]
-  d:\program\vc\include\vector(2796): note: см. ссылку на создание экземпляров функции шаблон при компиляции "void std::vector<boolean_function::value_type,std::allocator<_Ty>>::_Insert<_Iter>(std::_Vb_const_iterator<std::_Wrap_alloc<std::allocator<_Other>>>,_Iter,_Iter,std::forward_iterator_tag)"
-          with
-          [
-              _Ty=boolean_function::value_type,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
-              _Other=std::_Vbase
-          ]
-  d:\program\vc\include\vector(2796): note: см. ссылку на создание экземпляров функции шаблон при компиляции "void std::vector<boolean_function::value_type,std::allocator<_Ty>>::_Insert<_Iter>(std::_Vb_const_iterator<std::_Wrap_alloc<std::allocator<_Other>>>,_Iter,_Iter,std::forward_iterator_tag)"
-          with
-          [
-              _Ty=boolean_function::value_type,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>,
-              _Other=std::_Vbase
-          ]
-  d:\проекты\лабы\boolean functions\boolean_function.h(114): note: см. ссылку на создание экземпляров функции шаблон при компиляции "std::_Vb_iterator<std::_Wrap_alloc<std::allocator<_Other>>> std::vector<boolean_function::value_type,std::allocator<_Ty>>::insert<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>(std::_Vb_const_iterator<std::_Wrap_alloc<std::allocator<_Other>>>,_Iter,_Iter)"
-          with
-          [
-              _Other=std::_Vbase,
-              _Ty=boolean_function::value_type,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
-          ]
-  d:\проекты\лабы\boolean functions\boolean_function.h(114): note: см. ссылку на создание экземпляров функции шаблон при компиляции "std::_Vb_iterator<std::_Wrap_alloc<std::allocator<_Other>>> std::vector<boolean_function::value_type,std::allocator<_Ty>>::insert<std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>>(std::_Vb_const_iterator<std::_Wrap_alloc<std::allocator<_Other>>>,_Iter,_Iter)"
-          with
-          [
-              _Other=std::_Vbase,
-              _Ty=boolean_function::value_type,
-              _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<char>>>
-          ]
-d:\проекты\лабы\boolean functions\boolean_function.h(181): warning C4715: boolean_function::operator|=: значение возвращается не при всех путях выполнения
-d:\проекты\лабы\boolean functions\boolean_function.h(169): warning C4715: boolean_function::operator*=: значение возвращается не при всех путях выполнения
-d:\проекты\лабы\boolean functions\boolean_function.h(218): warning C4715: boolean_function::operator>=: значение возвращается не при всех путях выполнения
-test.obj : error LNK2019: ссылка на неразрешенный внешний символ "public: class boolean_function __thiscall boolean_function::operator()(class std::initializer_list<class boolean_function>)const " (??Rboolean_function@@QBE?AV0@V?$initializer_list@Vboolean_function@@@std@@@Z) в функции "void __cdecl test_combo2(void)" (?test_combo2@@YAXXZ)
-D:\проекты\Лабы\Boolean Functions\Debug\Boolean Functions.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
+d:\проекты\лабы\boolean functions\boolean_function.h(38): warning C4244: =: преобразование "double" в "std::size_t", возможна потеря данных
+d:\проекты\лабы\boolean functions\boolean_function.h(86): warning C4244: аргумент: преобразование "double" в "unsigned int", возможна потеря данных
+d:\проекты\лабы\boolean functions\boolean_function.h(95): warning C4244: инициализация: преобразование "double" в "unsigned __int64", возможна потеря данных
+d:\проекты\лабы\boolean functions\boolean_function.h(101): warning C4800: std::size_t: принудительно задано логическое значение "true" или "false" (предупреждение о производительности)
+d:\проекты\лабы\boolean functions\boolean_function.h(288): warning C4244: return: преобразование "double" в "boolean_function::std::size_type", возможна потеря данных
+d:\проекты\лабы\boolean functions\boolean_function.h(300): warning C4244: +=: преобразование "double" в "std::size_t", возможна потеря данных
+d:\проекты\лабы\boolean functions\boolean_function.h(311): warning C4244: +=: преобразование "double" в "std::size_t", возможна потеря данных
+d:\проекты\лабы\boolean functions\boolean_function.h(491): warning C4018: <: несоответствие типов со знаком и без знака
+d:\проекты\лабы\boolean functions\boolean_function.h(502): warning C4018: <: несоответствие типов со знаком и без знака
+d:\проекты\лабы\boolean functions\boolean_function.h(187): warning C4715: boolean_function::operator|=: значение возвращается не при всех путях выполнения
+d:\проекты\лабы\boolean functions\boolean_function.h(237): warning C4715: boolean_function::operator>=: значение возвращается не при всех путях выполнения
+d:\проекты\лабы\boolean functions\boolean_function.h(175): warning C4715: boolean_function::operator*=: значение возвращается не при всех путях выполнения
+  Boolean Functions.vcxproj -> D:\проекты\Лабы\Boolean Functions\Debug\Boolean Functions.exe
+  Boolean Functions.vcxproj -> D:\проекты\Лабы\Boolean Functions\Debug\Boolean Functions.pdb (Full PDB)

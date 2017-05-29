@@ -4,6 +4,8 @@
 
 #include <string>
 #include <vector>
+#include<algorithm>
+#include<iostream>
 
 class boolean_function
 {
@@ -31,9 +33,9 @@ public:
 	// вернется функция "0011001100110011"
 	static boolean_function var(size_t n, size_t dimension)
 	{
-		boolean_function bf(pow(2, dimension));
+		boolean_function bf(dimension);
 		bool change = false;
-		for (size_t i = 0; i != pow(2, dimension); i + pow(2, n))
+		for (size_t i = 0; i < pow(2, dimension); i = i + pow(2, n))
 		{
 			if (change)
 			{
@@ -56,9 +58,9 @@ public:
 	// тождественная единица "от dimension переменных"
 	static boolean_function one(size_t dimension)
 	{
-		//size_t value = pow(2, dimension) - 1;
-		//return boolean_function(value, dimension);
-		return boolean_function(pow(2, dimension) - 1, dimension);
+		boolean_function bf(dimension);
+		bf.Vector.flip();
+		return bf;
 	}
 
 	static boolean_function from_anf(std::vector<value_type> v)
@@ -91,27 +93,31 @@ public:
 	boolean_function(unsigned long long value, size_type n)
 	{
 		unsigned long long len = pow(2, n);
+		unsigned long long len1 = value;
 		for (size_t i = 0; i < pow(2, n); ++i)
 		{
-			size_t x = len & 1;
+			size_t x = value % 2;
+			value /= 2;
 			Vector.push_back(x);
-			len >> 1;
 		}
-		/*for (size_t i = 0; i < pow(2, n); ++i)
-		{
-		size_t x = value % 2;
-		value /= 2;
-		Vector.push_back(x);
-		}*/
 	}
 
 	// пусть table = "01110000"
 	// тогда АНФ boolean_function будет равна x + y + xy + zx + zy + zyx
 	boolean_function(const std::string& table)
 	{
-		if (log2(table.size()) != 2)
+		if (log2(table.size()) - (int)log2(table.size()) != 0)
 			throw std::logic_error("Error! Sets are incomparable!");
-		Vector.insert(this->end(), table.begin(), table.end());
+		for (auto i = table.begin(); i != table.end(); ++i)
+		{
+			if (*i == '0')
+				Vector.push_back(0);
+			else if (*i == '1')
+				Vector.push_back(1);
+			else
+				throw std::logic_error("Error! Incorrect symbol!");
+
+		}
 	}
 
 	// пусть table = {true, false, false, true};
@@ -119,13 +125,13 @@ public:
 	boolean_function(const std::vector<value_type>& table)
 	{
 		Vector.insert(this->end(), table.begin(), table.end());
-		if (log2(table.size()) != 2)
+		if (log2(table.size()) - (int)log2(table.size()) != 0)
 			throw std::logic_error("Error! Sets are incomparable!");
 	}
 
 	boolean_function(const std::initializer_list<bool> vars)
 	{
-		if (log2(vars.size()) != 2)
+		if (log2(vars.size()) - (int)log2(vars.size()) != 0)
 			throw std::logic_error("Error! Sets are incomparable!");
 		Vector.insert(this->end(), vars.begin(), vars.end());
 	}
@@ -191,11 +197,24 @@ public:
 	//  иначе false
 	bool operator == (const boolean_function& rhs) const
 	{
-		if (this->size() != rhs.size())
-			return false;
+		/*if (this->size() != rhs.size())
+		return false;
 		for (auto i = 0; i < this->size(); ++i)
 		{
-			if (Vector[i] != rhs[i])
+		if (Vector[i] != rhs[i])
+		return false;
+		}
+		return true;*/
+		std::vector<value_type>& anf1 = this->anf();
+		std::vector<value_type>& anf2 = rhs.anf();
+		size_t n = 0;
+		if (anf1.size() <= anf2.size())
+			n = anf1.size();
+		else
+			n = anf2.size();
+		for (size_t i = 0; i < n; ++i)
+		{
+			if (anf1[i] != anf2[i])
 				return false;
 		}
 		return true;
@@ -277,12 +296,12 @@ public:
 		size_t num = 0;
 		for (size_t i = 0; i < vars.size(); ++i)
 		{
-			if(vars[vars.size() - 1 - i])
+			if (vars[vars.size() - 1 - i])
 				num += pow(2, i);
 		}
 		return Vector[num];
 	}
-	bool operator()(const std::initializer_list<bool> vars) const 
+	bool operator()(const std::initializer_list<bool> vars) const
 	{
 		size_t num = 0;
 		size_t i = 0;
@@ -298,19 +317,57 @@ public:
 
 	// T(x1, x2, ..., xN) - текущая функция
 	// operator вернет новую функцию, которая равна композиции G = T(fs[0], fs[1], ..., fs[N-1])
-	boolean_function operator()(const std::vector<boolean_function>& fs) const;
-	boolean_function operator()(const std::initializer_list<boolean_function> vars) const;
+	boolean_function operator()(const std::vector<boolean_function>& fs) const
+	{
+		std::vector<boolean_function> bf = fs;
+		size_t maxSize = 0;
+		for (auto it = bf.begin(); it != bf.end(); ++it)
+		{
+			if (it->size() >= maxSize)
+				maxSize = it->size();
+		}
+		for (auto it = bf.begin(); it != bf.end(); ++it)
+		{
+			while (it->size() != maxSize)
+			{
+				size_t size = it->size();
+				for (size_t i = 0; i < size; ++i)
+				{
+					it->Vector.push_back(it->Vector[i]);
+				}
+				//it->Vector.insert(it->Vector.begin(), it->Vector.begin(), it->Vector.end());
+			}
+		}
+		std::vector<value_type> G;
+		for (size_t i = 0; i < maxSize; ++i)
+		{
+			std::vector<value_type> vector;
+			for(auto it=bf.begin(); it!=bf.end(); ++it)
+			{
+				vector.push_back(it->at(i));
+			}
+			G.push_back((*this)(vector));
+		}
+		return G;
+	}
+
+
+	boolean_function operator()(const std::initializer_list<boolean_function> vars) const
+	{
+		std::vector<boolean_function> vector = vars;
+		return (*this)(vector);
+	}
 
 	bool is_monotone() const
 	{
-		size_t dist = this->size()/2;
+		size_t dist = this->size() / 2;
 		while (dist > 0)
 		{
-			for (size_t i = 0; i < this->size(); i + 2*dist)
+			for (size_t i = 0; i < this->size(); i += 2 * dist)
 			{
 				for (size_t j = 0; j < dist; ++j)
 				{
-					if (Vector[i + j] > Vector[i + j + dist]) 
+					if (Vector[i + j] > Vector[i + j + dist])
 						return false;
 				}
 			}
@@ -331,28 +388,15 @@ public:
 	bool is_linear() const
 	{
 		std::vector<value_type> anff = anf();
-		bool check = true;
-		size_t ost = 0;
-		size_t n = 0;
-		for (int i = 0; i < anff.size(); i++)
+		size_t deg = 0;
+		for (size_t i = 0; i < anff.size(); ++i)
 		{
-			ost = 0;
-			n = i;
-			while (n > 0)
-			{
-				ost += n % 2;
-				n /= 2;
-			}
-			if (ost >= 1)
-			{
-				if (anff[i] != 0)
-				{
-					check = false;
-					break;
-				}
-			}
+			if (i == pow(2, deg))
+				++deg;
+			else if (anff[i] == 1)
+				return false;
 		}
-		return check;
+		return true;
 	}
 
 	bool is_T1() const
@@ -426,7 +470,7 @@ private:
 		{
 			if (a[i] > b[i])
 				is_more = true;
-			else
+			else if (a[i] < b[i])
 				is_less = true;
 			if (is_more && is_less)
 				return false;
@@ -437,7 +481,38 @@ private:
 
 // пусть boolean_function представляет из себя функцию "01110000"
 // тогда get_polynom вернет строку "x0 + x1 + x0x1 + x0x2 + x1x2 + x0x1x2"
-std::string get_polynom(const boolean_function&);
+std::string get_polynom(const boolean_function& rhs)
+{
+	boolean_function anff = rhs.anf();
+	std::string polinom;
+	if (anff[0] == 1)
+		polinom += "1 + ";
+
+	for (int i = 1; i < anff.size(); i++)
+	{
+		if (anff[i] == 1)
+		{
+			int a = i;
+			std::vector<int> vec;
+			while (a > 0)
+			{
+				vec.push_back(a % 2);
+				a /= 2;
+			}
+			for (int j = 0; j < vec.size(); j++)
+			{
+				if (vec[j] == 1)
+				{
+					polinom += "x";
+					polinom += std::to_string(j);
+				}
+			}
+			if (i + 1 != anff.size())
+				polinom += " + ";
+		}
+	}
+	return polinom;
+}
 
 boolean_function operator + (const boolean_function& a, const boolean_function& b)
 {
